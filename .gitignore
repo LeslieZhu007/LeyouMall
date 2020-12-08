@@ -1,0 +1,11 @@
+.idea
+target
+*.iml
+
+node_modules
+
+.settings
+.project
+
+*.jpg
+leyou-manage

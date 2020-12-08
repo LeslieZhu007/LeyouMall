@@ -1,0 +1,11 @@
+server:
+  port: 10086
+spring:
+  application:
+    name: ly-registry
+eureka:
+  client:
+    fetch-registry: false  #以后配置集群时需要开启为true
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://ly-registry:10086/eureka  # hosts中需要配置 ly-registry将来是容器名

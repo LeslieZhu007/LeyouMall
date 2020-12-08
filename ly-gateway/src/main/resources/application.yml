@@ -1,0 +1,32 @@
+server:
+  port: 10010
+eureka:
+  client:
+    service-url:
+      defaultZone: http://ly-registry:10086/eureka
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 6000 # 熔断超时时长：6000ms
+ribbon:
+  ConnectTimeout: 500 # ribbon链接超时时长
+  ReadTimeout: 2000 # ribbon读取超时时长
+spring:
+  application:
+    name: ly-gateway
+  cloud:
+    gateway:
+      default-filters: # 默认过滤项
+        - StripPrefix=1 # 去除路由前缀
+        - name: Hystrix # 指定过滤工厂名称（可以是任意过滤工厂类型）
+          args: # 指定过滤的参数
+            name: fallbackcmd  # hystrix的指令名
+            fallbackUri: forward:/hystrix/fallback # 失败后的跳转路径
+      routes:
+        - id: item-service
+          uri: lb://item-service
+          predicates:
+            - Path=/item/**
+logging:
+  level:
+    com.leyou: debug
