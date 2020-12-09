@@ -12,6 +12,12 @@
     <artifactId>ly-item-service</artifactId>
 
     <dependencies>
+        <!--mybatis-plus的依赖，不能导错包-->
+        <!--mybatis plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
         <!--引入common 异常处理-->
         <dependency>
             <groupId>com.leyou</groupId>

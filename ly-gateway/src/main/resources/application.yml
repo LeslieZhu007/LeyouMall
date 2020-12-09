@@ -22,6 +22,22 @@ spring:
           args: # 指定过滤的参数
             name: fallbackcmd  # hystrix的指令名
             fallbackUri: forward:/hystrix/fallback # 失败后的跳转路径
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true # 是否将当前cors配置加入到SimpleUrlHandlerMapping中，解决options请求被拦截问题
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: # 允许哪些网站的跨域请求
+            - "http://manage.leyou.com"
+            - "http://www.leyou.com"
+            allowedMethods: # 允许的跨域ajax的请求方式
+            - "GET"
+            - "POST"
+            - "DELETE"
+            - "PUT"
+            - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期
       routes:
         - id: item-service
           uri: lb://item-service
