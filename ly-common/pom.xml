@@ -16,7 +16,7 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
             <version>3.3.0</version>
-            <optional>true</optional>
+            <!--<optional>true</optional> 不去掉会在ly-auth中产生问题-->
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

@@ -8,6 +8,8 @@ spring:
     url: jdbc:mysql://ly-mysql:3306/heima?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false
     username: root
     password: 123
+  jackson:
+    default-property-inclusion: non_null # json序列化只返回非空属性
 eureka:
   client:
     service-url:

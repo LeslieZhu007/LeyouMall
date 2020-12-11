@@ -13,6 +13,7 @@
         <module>ly-gateway</module>
         <module>ly-item</module>
         <module>ly-common</module>
+        <module>ly-auth</module>
     </modules>
 
     <parent>
@@ -30,7 +31,7 @@
         <mybatis.plus.version>3.3.0</mybatis.plus.version>
         <leyou.latest.version>1.0.0-SNAPSHOT</leyou.latest.version>
         <mysql.version>5.1.47</mysql.version>
-        <ali.oss.version>3.4.2</ali.oss.version>
+        <ali.oss.version>3.10.2</ali.oss.version>
         <elasticsearch.version>7.4.2</elasticsearch.version>
     </properties>
 
