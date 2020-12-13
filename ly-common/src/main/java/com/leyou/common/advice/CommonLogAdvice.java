@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * @author 虎哥
+ * @Author: Leslie Arnold
+ * @Date: 2020/12/12 16:22
  */
 @Slf4j
 @Aspect
