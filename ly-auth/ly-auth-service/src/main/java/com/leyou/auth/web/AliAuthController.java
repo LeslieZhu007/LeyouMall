@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 阿里的相关授权接口
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @RestController
 @RequestMapping("ali")

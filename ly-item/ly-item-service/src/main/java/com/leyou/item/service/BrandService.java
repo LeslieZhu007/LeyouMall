@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 public interface BrandService extends IService<Brand> {
 

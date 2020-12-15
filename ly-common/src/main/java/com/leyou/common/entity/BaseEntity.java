@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class BaseEntity {

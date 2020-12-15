@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @Data
 @AllArgsConstructor(staticName = "of")

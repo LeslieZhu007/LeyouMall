@@ -7,7 +7,7 @@ import com.leyou.item.service.CategoryBrandService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @Service
 public class CategoryBrandServiceImpl extends ServiceImpl<CategoryBrandMapper, CategoryBrand> implements CategoryBrandService {

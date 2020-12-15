@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @Service
 public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements BrandService {

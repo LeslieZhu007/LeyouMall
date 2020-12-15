@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.leyou.common.dto.PageDTO;
 import com.leyou.common.exception.LyException;
+import com.leyou.common.utils.JsonUtils;
 import com.leyou.item.dto.SkuDTO;
+import com.leyou.item.dto.SpecParamDTO;
 import com.leyou.item.dto.SpuDTO;
 import com.leyou.item.dto.SpuDetailDTO;
 import com.leyou.item.entity.*;
@@ -18,14 +20,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @Service
 public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuService {
@@ -44,6 +43,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
 
     @Autowired
     SpuDetailService spuDetailService;
+
+
+    @Autowired
+    SpecParamService specParamService;
 
 
     @Override
@@ -105,7 +108,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         //拼接三级名称
 
         if(!CollectionUtils.isEmpty(categories)) {
-            String names = categories.stream().map(Category::getName).collect(Collectors.joining(">"));
+            String names = categories.stream().map(Category::getName).collect(Collectors.joining("/"));
 
             spuDTO.setCategoryName(names);
         }
@@ -193,4 +196,142 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
 
 
     }
+
+    @Override
+    @Transactional
+    public void updateSaleable(Long spuId, Boolean saleable) {
+        //更新spu上下架
+        //update tb_spu set saleable = #{s} where id = #{spuId}
+        Spu spu = new Spu();
+        spu.setId(spuId);
+        spu.setSaleable(saleable);
+        boolean success = updateById(spu);
+        if(!success) {
+            throw new LyException(500,"更新上下架失败" );
+        }
+        //但是tb_sku中也有saleable字段，冗余保存
+        //2.更新sku的上下架 update tb_sku set saleable = #{s} where spu_id = #{spuId}
+        success = skuService.update().set("saleable", saleable)
+                .eq("spu_id", spuId
+                ).update();
+
+        if(!success) {
+            throw new LyException(500,"更新上下架失败" );
+        }
+    }
+
+    @Override
+    public SpuDTO queryGoodsById(Long spuId) {
+        //1.查询spu
+        Spu spu = getById(spuId);
+        SpuDTO spuDTO = new SpuDTO(spu);
+        //2.查询spuDetail
+        spuDTO.setSpuDetail(spuDetailService.queryDetailBySpuId(spuId));
+        //3.查询sku
+        spuDTO.setSkus(skuService.querySkuBySpuId(spuId));
+        //4.查询分类和品牌名称
+        handleBrandAndCategoryName(spuDTO);
+        return spuDTO;
+    }
+
+
+
+    /**
+     * 更新本质和添加差不多
+     * @param spuDTO
+     */
+    @Override
+    @Transactional
+    public void updateGoods(SpuDTO spuDTO) {
+        //1.判断参数中是否包含spu的id
+        Long spuId = spuDTO.getId();
+        if(spuId!=null){
+            //1.1 spu有变化 转po
+            Spu spu = spuDTO.toEntity(Spu.class);
+            //1.2确保不更新saleable
+            spu.setSaleable(null);  //yml文件中有 update-strategy: NOT_EMPTY # 更新时，只更新非空字段 的策略
+            //1.3 更新
+            boolean success = updateById(spu);
+            if(!success) {
+                throw new LyException(500,"更新上下架失败" );
+            }
+        }
+
+        //2.判断是否包含spuDetail
+        SpuDetailDTO spuDetailDTO = spuDTO.getSpuDetail();
+        if(spuDetailDTO!=null&& spuDetailDTO.getSpuId()!=null){
+            SpuDetail spuDetail = spuDetailDTO.toEntity(SpuDetail.class);
+            boolean success = spuDetailService.updateById(spuDetail);
+            if (!success) {
+                throw new LyException(500,"upgrading goods failed" );
+            }
+        }
+
+        //3.判断是否包含sku
+        List<SkuDTO> skuDTOList = spuDTO.getSkus();
+        if(CollectionUtils.isEmpty(skuDTOList)) {
+            //如果不包含sku,无需修改
+            return;
+        }
+        /*for (SkuDTO skuDTO : skuDTOList) {
+            Sku sku = skuDTO.toEntity(Sku.class);
+        }*/
+        //stream流代替for循环
+        Map<Boolean, List<Sku>> skuMap = skuDTOList.stream()
+                .map(skuDTO -> skuDTO.toEntity(Sku.class))
+                //5.如果包含sku
+                //判断是否包含saleable
+                .collect(Collectors.groupingBy(sku -> sku.getSaleable() != null));
+        //      -5.1 包含saleable： 就是需要删除sku
+                List<Sku> deleteSkuList = skuMap.get(true);
+                //6.1 判断是否为空
+                if(!CollectionUtils.isEmpty(deleteSkuList)) {
+                    //6.2 不为空，获取待删除的sku的id集合
+                    List<Long> deleteIdList = deleteSkuList.stream().map(Sku::getId).collect(Collectors.toList());
+                    //6.3 批量删除
+                    skuService.removeByIds(deleteIdList);
+                }
+
+
+
+
+
+        //      7 不包含saleable： 就是需要新增或修改的sku
+                List<Sku> saveOrUpdateSkuList = skuMap.get(false);
+
+                if (!CollectionUtils.isEmpty(saveOrUpdateSkuList)) {
+                    //7.2 不为空，需要增或改
+                    skuService.saveOrUpdateBatch(saveOrUpdateSkuList);
+                }
+
+    }
+
+    @Override
+    public List<SpecParamDTO> queySpecValue(Long spuId, Boolean searching) {
+        //1.查询spu
+        Spu spu = getById(spuId);
+        //2.获取分类信息
+        Long categoryId = spu.getCid3();
+        //3.根据分类信息查询规格参数key  tb_spec_param
+        //此时specParamDTOS中还没有value
+        List<SpecParamDTO> specParamDTOS = specParamService.querySpecParams(categoryId, null, searching);
+
+        //4. 查询规格参数的值 tb_spu_detail
+        SpuDetail spuDetail = spuDetailService.getById(spuId);
+        //4.1 获取规格参数值
+        String specification = spuDetail.getSpecification();
+        //4.2把JSON字符串转map,key是specParamDTO的id  value是spec的值
+        Map<Long, Object> valueMap = JsonUtils.toMap(specification, Long.class, Object.class);
+        //5.给每个param找对应的value
+        for (SpecParamDTO specParamDTO : specParamDTOS) {
+            Long id = specParamDTO.getId();
+            Object value = valueMap.get(id);
+            specParamDTO.setValue(value);
+        }
+
+
+
+        return specParamDTOS;
+    }
+
 }

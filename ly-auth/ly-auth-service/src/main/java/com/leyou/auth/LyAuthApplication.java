@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @EnableExceptionAdvice
 @SpringBootApplication

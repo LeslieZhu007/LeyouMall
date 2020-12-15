@@ -3,7 +3,7 @@ package com.leyou.common.exception;
 import lombok.Getter;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @Getter
 public class LyException extends RuntimeException {

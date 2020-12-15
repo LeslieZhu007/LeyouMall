@@ -4,7 +4,7 @@ import com.leyou.common.constants.RegexPatterns;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 public class RegexUtils {
     /**

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leyou.item.entity.Spu;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 public interface SpuMapper extends BaseMapper<Spu> {
 }

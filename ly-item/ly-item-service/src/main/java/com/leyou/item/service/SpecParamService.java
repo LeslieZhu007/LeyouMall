@@ -5,9 +5,9 @@ import com.leyou.item.entity.SpecParam;
 
 import java.util.List;
 
-/** * @author 虎哥 */
+/** * @author Leslie Arnoald */
 public interface SpecParamService extends IService<SpecParam> {
 
 
-    List<SpecParamDTO> querySpecParams(Long categoryId, Long groupId, String searching);
+    List<SpecParamDTO> querySpecParams(Long categoryId, Long groupId, Boolean searching);
 }

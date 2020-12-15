@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leyou.item.entity.CategoryBrand;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 public interface CategoryBrandMapper extends BaseMapper<CategoryBrand> {
 }

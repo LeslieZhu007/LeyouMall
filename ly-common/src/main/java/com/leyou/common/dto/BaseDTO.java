@@ -7,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 
 /**
  * 基本的DTO，提供了DTO和Entity之间的互相转换功能
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @Data
 public abstract class BaseDTO {

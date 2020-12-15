@@ -8,7 +8,7 @@ import com.leyou.item.entity.SpecGroup;
 import java.util.List;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 public interface SpecGroupService extends IService<SpecGroup> {
     List<SpecGroupDTO> queryGroupByCategoryId(Long categoryId);

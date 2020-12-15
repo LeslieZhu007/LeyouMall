@@ -9,7 +9,7 @@ import org.aspectj.weaver.ast.Var;
 import java.util.List;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 public interface BrandMapper extends BaseMapper<Brand> {
 

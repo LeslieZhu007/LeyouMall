@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @auth 虎哥
+ * @auth Leslie Arnoald
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

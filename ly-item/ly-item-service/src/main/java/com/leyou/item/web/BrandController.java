@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @RestController
 @RequestMapping("brand")

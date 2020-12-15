@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 @Service
 public class SpecParamServiceImpl extends ServiceImpl<SpecParamMapper, SpecParam> implements SpecParamService {
     @Override
-    public List<SpecParamDTO> querySpecParams(Long categoryId, Long groupId, String searching) {
+    public List<SpecParamDTO> querySpecParams(Long categoryId, Long groupId, Boolean searching) {
         // 1. Integrity assessment
         // Pagination can also be applied here to solve the illegal request param problem
         if(categoryId==null && groupId==null) {

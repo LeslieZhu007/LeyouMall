@@ -1,7 +1,7 @@
 package com.leyou.common.constants;
 
 /**
- * @author 虎哥
+ * @author Leslie Arnoald
  */
 public abstract class RegexPatterns {
     /**
