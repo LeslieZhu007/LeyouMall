@@ -15,6 +15,7 @@ import com.leyou.item.entity.*;
 import com.leyou.item.mapper.SpuMapper;
 import com.leyou.item.service.*;
 import com.netflix.discovery.converters.Auto;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,10 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.leyou.common.constants.MQConstants.RoutingKeyConstants.ITEM_DOWN_KEY;
+import static com.leyou.common.constants.MQConstants.RoutingKeyConstants.ITEM_UP_KEY;
+import static com.leyou.common.constants.MQConstants.ExchangeConstants.ITEM_EXCHANGE_NAME;
 
 /**
  * @author Leslie Arnoald
@@ -47,6 +52,9 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
 
     @Autowired
     SpecParamService specParamService;
+
+    @Autowired
+    AmqpTemplate amqpTemplate;
 
 
     @Override
@@ -218,6 +226,11 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
         if(!success) {
             throw new LyException(500,"更新上下架失败" );
         }
+
+
+        //发送消息
+        String routingKey = saleable ? ITEM_UP_KEY : ITEM_DOWN_KEY;
+        amqpTemplate.convertAndSend(ITEM_EXCHANGE_NAME,routingKey, spuId);
     }
 
     @Override

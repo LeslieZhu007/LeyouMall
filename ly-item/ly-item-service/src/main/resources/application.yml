@@ -10,6 +10,18 @@ spring:
     password: 123
   jackson:
     default-property-inclusion: non_null # json序列化只返回非空属性
+  rabbitmq:
+    host: ly-mq
+    username: leyou
+    password: 123321
+    virtual-host: /
+    template:
+      retry:
+        enabled: true  # 开启消息的失败重试
+        initial-interval: 10000ms  # 重试周期
+        max-interval: 80000ms
+        multiplier: 2  # 下次重试的周期的倍数
+    publisher-confirms: true # 开启生产者确认机制
 eureka:
   client:
     service-url:
