@@ -8,8 +8,10 @@ public class SearchConstants {
 
     public static final String SEARCH_FIELD = "title";
     public static final String HIGHLIGHT_FIELD = "title";
-    public static final String[] INCLUDE_SOURCE = new String[]{"id","title","prices","sold","images"};
-    public static final String EMPTY_SOURCE = "title";
+    public static final String[] INCLUDE_SOURCE = new String[]{"id","title","prices","sold","image"};
+    public static final String[] EMPTY_SOURCE = new String[0];
+    public static final String PRE_TAG = "<am>";
+    public static final String POST_TAG = "</am>";
 
 
 

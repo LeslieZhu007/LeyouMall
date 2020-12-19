@@ -227,6 +227,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements SpuSe
             throw new LyException(500,"更新上下架失败" );
         }
 
+        //既有上架又有下架功能
 
         //发送消息
         String routingKey = saleable ? ITEM_UP_KEY : ITEM_DOWN_KEY;

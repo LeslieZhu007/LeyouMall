@@ -38,7 +38,7 @@ public class SearchParamDTO {
     /**
      * 过滤参数
      */
-    private Map<String,String> filters; //过滤条件的封装 {}
+    private Map<String,String> filters; //过滤条件的封装 {"分类":手机，”内存“：”6GB"}
     /**
      * 开始索引
      */
@@ -93,5 +93,5 @@ public class SearchParamDTO {
 
     public Integer getFrom() {
         return (page - 1) * getSize();
-    }
+    }  //计算起始页
 }

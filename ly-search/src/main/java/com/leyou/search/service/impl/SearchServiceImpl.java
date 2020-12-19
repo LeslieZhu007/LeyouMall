@@ -28,8 +28,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.leyou.search.constants.SearchConstants.SOURCE_TEMPLATE;
-import static com.leyou.search.constants.SearchConstants.SUGGEST_FIELD;
+import static com.leyou.search.constants.SearchConstants.*;
 import static java.lang.Double.parseDouble;
 
 /**
@@ -292,64 +291,84 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public Mono<PageInfo<Goods>> searchGoodsList(SearchParamDTO paramDTO) {
         /*GET /goods/_search
-{
-  "_source": "{
-    "includes": ["id","title","prices","sold","images"]
-  },
-  "query": {
-
-    "bool": {
-      "must": [
         {
-          "match": {
-            "title": "手机"
+          "_source": "{
+            "includes": ["id","title","prices","sold","images"]
+          },
+          "query": {
+
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "title": "手机"
+                  }
+                }
+              ]
+            }
+          },
+          "from": 0,
+          "size": 20,
+          "sort": [
+            {
+              "prices": {
+                "order": "desc"
+              }
+            }
+          ],
+          "highlight": {
+            "fields": {"title": {}}
           }
         }
-      ]
-    }
-  },
-  "from": 0,
-  "size": 20,
-  "sort": [
-    {
-      "prices": {
-        "order": "desc"
-      }
-    }
-  ],
-  "highlight": {
-    "fields": {"title": {}}
-  }
-}
-*/
+        */
         //构建搜索条件
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         //1.source过滤
-        sourceBuilder.fetchSource(new String[]{"id","title","prices","sold","images"}, null);
-        //query查询
+        sourceBuilder.fetchSource(INCLUDE_SOURCE, EMPTY_SOURCE);
+        //2.query查询
         String key = paramDTO.getKey();
         if(StringUtils.isBlank(key)){
-            throw new LyException(404,"Goods not found");
+            throw new LyException(404,"没有找打与“”相关产品");
         }
         sourceBuilder.query(QueryBuilders.boolQuery().must(
                 QueryBuilders.matchQuery("title",key )
         ));
-        //sort排序
+        //3.sort排序
+        //分2种情况 sortBy为空，不为空，为空则按照lucene语言的score原理进行排序
         String sortBy = paramDTO.getSortBy();
         if(StringUtils.isNotBlank(sortBy)) {
             //需要排序
-            sourceBuilder.sort(sortBy,paramDTO.getDesc()? SortOrder.DESC:SortOrder.ASC );
+            sourceBuilder.sort(sortBy,paramDTO.getDesc() ? SortOrder.DESC : SortOrder.ASC );
 
         }
-        //分页
+        //4 分页
         sourceBuilder.from(paramDTO.getFrom()).size(paramDTO.getSize());
 
-        //高亮
+        //5 高亮
         sourceBuilder.highlighter(new HighlightBuilder().field("title")
-        .preTags("<am>").postTags("</am>"));
+        .preTags(PRE_TAG).postTags(POST_TAG));
         ;
 
-        repository.queryBySourceBuilderForPageHighlight(sourceBuilder);
-        return null;
+
+        return  repository.queryBySourceBuilderForPageHighlight(sourceBuilder);
+    }
+
+    @Override
+    public void saveItemBySpuId(Long spuId) {
+
+        //查询spu
+        SpuDTO spuDTO = itemClient.queryGoodsById(spuId);
+
+        //构建goods
+        Goods goods = buildGoods(spuDTO);
+
+        //新增goods
+        repository.save(goods);
+
+    }
+
+    @Override
+    public void deleteItemBySpuId(Long spuId) {
+        repository.deleteById(spuId);
     }
 }

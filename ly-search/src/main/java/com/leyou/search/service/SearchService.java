@@ -26,4 +26,8 @@ public interface SearchService {
     Mono<List<String>> getSuggestion(String keyPrefix);
 
     Mono<PageInfo<Goods>> searchGoodsList(SearchParamDTO paramDTO);
+
+    void saveItemBySpuId(Long spuId);
+
+    void deleteItemBySpuId(Long spuId);
 }

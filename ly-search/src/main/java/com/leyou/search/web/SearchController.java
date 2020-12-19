@@ -68,8 +68,20 @@ public class SearchController {
           .catch(e => console.log(e))*/
 
 
+    //先前封装的工具类中就有
+    /*public class PageInfo<T> {
+      private long total;
+      private List<T> content;
 
-    // request payload
+      这与前端数据相对应
+
+      */
+
+    //综合，销量，新品都是默认降序的，无法修改
+
+
+
+    // request payload  请求参数
     /*{page: 1, key: " 红米5A", filters: {}, sortBy: "", desc: true}
         desc: true      升序，降序
         filters: {}    条件筛选
@@ -80,6 +92,11 @@ public class SearchController {
 
         */
 
+    /**
+     * 搜索商品列表
+     * @param paramDTO 请求参数的form表单
+     * @return 分页的商品数据
+     */
     @PostMapping("/list")
 
     public Mono<PageInfo<Goods>> searchGoodsList(@RequestBody SearchParamDTO paramDTO) {
