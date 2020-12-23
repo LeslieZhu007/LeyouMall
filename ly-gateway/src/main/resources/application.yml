@@ -51,6 +51,10 @@ spring:
           uri: lb://search-service
           predicates:
             - Path=/search/**
+        - id: user-service # 授权服务
+            uri: lb://user-service
+            predicates:
+            - Path=/user/**
 logging:
   level:
     com.leyou: debug

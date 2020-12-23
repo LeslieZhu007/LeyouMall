@@ -1,0 +1,14 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: page-service
+  redis:
+    host: myredis    #ly-redis
+eureka:
+  client:
+    service-url:
+      defaultZone: http://ly-registry:10086/eureka
+canal:
+  server: ly-canal:11111
+  destination: test
