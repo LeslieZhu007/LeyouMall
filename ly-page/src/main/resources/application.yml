@@ -12,3 +12,7 @@ eureka:
 canal:
   server: ly-canal:11111
   destination: test
+logging:
+  level:
+    t.j.c.client.client: error
+    com.leyou: debug

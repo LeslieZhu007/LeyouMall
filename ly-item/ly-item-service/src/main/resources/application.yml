@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   application:
-            name: item-service
+    name: item-service
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://ly-mysql:3306/heima?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false
@@ -32,7 +32,7 @@ logging:
 
 
 mybatis-plus:
-  type-aliases-package: com.leyou.item.entity # 别名扫描包
+  type-aliases-package: com.leyou.entity.entity # 别名扫描包
   # mapper-locations: classpath*:mappers/*.xml # mapper的xml文件地址
   global-config:
     db-config:

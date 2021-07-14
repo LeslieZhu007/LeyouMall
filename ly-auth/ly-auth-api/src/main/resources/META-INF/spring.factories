@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.leyou.auth.config.FeignConfig,\
+  com.leyou.auth.config.AuthConfiguration,\
+  com.leyou.auth.config.MvcConfig

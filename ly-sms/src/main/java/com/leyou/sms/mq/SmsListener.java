@@ -23,6 +23,10 @@ import static com.leyou.common.constants.MQConstants.RoutingKeyConstants.VERIFY_
  * @Date: 2020/12/23 8:51
  */
 
+
+/**
+ * SmsListener的主要作用就是发短信
+ */
 @Component
 public class SmsListener {
 
@@ -30,22 +34,30 @@ public class SmsListener {
     private SmsUtil smsUtil;
 
     //MQConstants
-    @RabbitListener(bindings = @QueueBinding(
+    /*@RabbitListener(bindings = @QueueBinding(
             value = @Queue(name = SMS_VERIFY_CODE_QUEUE,durable = "true"),
+            exchange = @Exchange(name = SMS_EXCHANGE_NAME,type = ExchangeTypes.TOPIC),
+            key = VERIFY_CODE_KEY
+    ))*/
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = SMS_VERIFY_CODE_QUEUE),
             exchange = @Exchange(name = SMS_EXCHANGE_NAME,type = ExchangeTypes.TOPIC),
             key = VERIFY_CODE_KEY
     ))
 
+
+    //phone,code是一个整体，所以用map接口
     public void listenVerifyCode(Map<String,String> msg) {
 
         //获取消息
         if(CollectionUtils.isEmpty(msg)){
-            //
+            //不需要处理，直接retyrnb
             return;
         }
 
         String phone = msg.get("phone");
-        //手机号做正则表达式校验
+        //手机号做正则表达式校验 Common中的工具
         if(!RegexUtils.isPhone(phone)){
             return;
         }
@@ -53,7 +65,7 @@ public class SmsListener {
 
         String code = msg.get("code");
 
-        //code校验
+        //code校验 6位以内的数字或字母   RegexPatterns
         if(!RegexUtils.isCodeValid(code)){
             return;
         }

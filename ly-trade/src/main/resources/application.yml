@@ -1,0 +1,42 @@
+server:
+  port: 8087
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://ly-mysql:3306/heima?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: 123
+  application:
+    name: trade-service
+  data:
+    mongodb:   # leyou:123这个账号只具备对carts的操作权限
+      uri: mongodb://leyou:123@ly-mongo/carts
+  redis:
+    host: myredis
+eureka:
+  client:
+    service-url:
+      defaultZone: http://ly-registry:10086/eureka
+
+logging:
+  level:
+    com.leyou: debug
+ly:
+  auth:
+    clientId: trade-service
+    enable: true
+    secret: 1234
+    includePathPatterns: # 拦截路径
+      - /**
+
+  mongo:
+    collectionNamePrefix: cart_user_
+
+
+mybatis-plus:
+  type-aliases-package: com.leyou.trade.entity
+  global-config:
+    db-config:
+      id-type: INPUT # 此处的id类型选择INPUT，代表自定义
+      insert-strategy: not_null
+      update-strategy: not_null

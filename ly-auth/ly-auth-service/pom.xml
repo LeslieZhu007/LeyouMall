@@ -12,6 +12,24 @@
     <artifactId>ly-auth-service</artifactId>
 
     <dependencies>
+
+        <!--引入user-api 中的根据用户名和密码查询用户的方法-->
+        <dependency>
+            <groupId>com.leyou</groupId>
+            <artifactId>ly-user-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <!--mybatis-plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <!--mysql-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
         <!--eureka起步依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

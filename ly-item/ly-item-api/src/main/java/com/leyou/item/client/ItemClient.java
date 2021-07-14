@@ -4,11 +4,11 @@ import com.leyou.common.dto.PageDTO;
 import com.leyou.item.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Feign的原理: 对 http 请求的伪装
@@ -126,7 +126,7 @@ public interface ItemClient {
      * @return sku的集合
      */
     @GetMapping("/goods/sku/list")
-    List<SkuDTO> querySkuByIds(@RequestParam("ids") List<Long> ids);
+    List<SkuDTO> querySkuByIds(@RequestParam("ids") Collection<Long> ids);
     /**
      * 根据id查询商品
      * @param id 商品id
@@ -150,4 +150,17 @@ public interface ItemClient {
      */
     @GetMapping("/spec/list")
     List<SpecGroupDTO> querySpecList(@RequestParam("id") Long id);
+
+
+    /**
+     * 扣减库存
+     * @param skuMap sku信息，key:skuId,value:扣减数量
+     */
+    //http://localhost/api/doc.html -->商品管理--> 批量减库存
+
+    @PutMapping("/goods/stock/minus")
+    void deductStock(@RequestBody Map<Long,Integer> skuMap);
+
+
+
 }

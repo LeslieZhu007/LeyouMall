@@ -189,5 +189,21 @@ public class GoodsController {
     }
 
 
+    /**
+     * 扣减库存
+     * @param skuMap sku信息，key:skuId,value:扣减数量
+     */
+    //http://localhost/api/doc.html -->商品管理--> 批量减库存
+
+    @PutMapping("/stock/minus")
+    ResponseEntity<Void> deductStock(@RequestBody Map<Long,Integer> skuMap) {
+        //业务比较复杂，放到service中去做
+        skuService.deductStock(skuMap);
+
+        return ResponseEntity.noContent().build();
+    };
+
+
+
 
 }

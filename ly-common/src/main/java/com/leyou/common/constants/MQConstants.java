@@ -9,7 +9,7 @@ public abstract class MQConstants {
         /**
          * 商品服务交换机名称
          */
-        public static final String ITEM_EXCHANGE_NAME = "ly.item.exchange";
+        public static final String ITEM_EXCHANGE_NAME = "ly.entity.exchange";
         /**
          * 消息服务交换机名称
          */
@@ -28,11 +28,11 @@ public abstract class MQConstants {
         /**
          * 商品上架的routing-key
          */
-        public static final String ITEM_UP_KEY = "item.up";
+        public static final String ITEM_UP_KEY = "entity.up";
         /**
          * 商品下架的routing-key
          */
-        public static final String ITEM_DOWN_KEY = "item.down";
+        public static final String ITEM_DOWN_KEY = "entity.down";
         /**
          * 商品下架的routing-key
          */
@@ -47,11 +47,11 @@ public abstract class MQConstants {
         /**
          * 搜索服务，商品上架的队列
          */
-        public static final String SEARCH_ITEM_UP = "search.item.up.queue";
+        public static final String SEARCH_ITEM_UP = "search.entity.up.queue";
         /**
          * 搜索服务，商品下架的队列
          */
-        public static final String SEARCH_ITEM_DOWN = "search.item.down.queue";
+        public static final String SEARCH_ITEM_DOWN = "search.entity.down.queue";
         /**
          * 搜索服务，商品下架的队列
          */

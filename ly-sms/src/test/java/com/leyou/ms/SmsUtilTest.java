@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static com.leyou.common.constants.MQConstants.ExchangeConstants.SMS_EXCHANGE_NAME;
 import static com.leyou.common.constants.MQConstants.QueueConstants.SMS_VERIFY_CODE_QUEUE;
+import static com.leyou.common.constants.MQConstants.RoutingKeyConstants.VERIFY_CODE_KEY;
 
 /**
  * @Author: Leslie Arnold
@@ -28,6 +29,8 @@ public class SmsUtilTest {
 
     @Autowired
     private AmqpTemplate amqpTemplate;
+
+
 
     @Test
     public void testSend() {
@@ -43,8 +46,9 @@ public class SmsUtilTest {
     public void testMQ() {
         Map<String,String> msg = new HashMap<>();
         String code = RandomStringUtils.randomNumeric(6);
+        msg.put("phone", "13057085612");
+        msg.put("code", code);
         System.out.println("code = " + code);
-        smsUtil.sendVerificationCode("13057085612",code );
-        amqpTemplate.convertAndSend(SMS_EXCHANGE_NAME, SMS_VERIFY_CODE_QUEUE,msg);
+        amqpTemplate.convertAndSend(SMS_EXCHANGE_NAME, VERIFY_CODE_KEY,msg);
     }
 }

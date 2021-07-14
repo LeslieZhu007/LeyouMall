@@ -39,22 +39,37 @@ spring:
             allowCredentials: true # 是否允许携带cookie
             maxAge: 360000 # 这次跨域检测的有效期
       routes:
-        - id: item-service
-          uri: lb://item-service
-          predicates:
-            - Path=/item/**
-        - id: auth-service # 授权服务
-          uri: lb://auth-service
-          predicates:
-            - Path=/auth/**
-        - id: search-service # 授权服务
-          uri: lb://search-service
-          predicates:
-            - Path=/search/**
-        - id: user-service # 授权服务
-            uri: lb://user-service
-            predicates:
-            - Path=/user/**
+      - id: auth-service # 授权服务
+        uri: lb://auth-service
+        predicates:
+          - Path=/auth/**
+      - id: search-service # 授权服务
+        uri: lb://search-service
+        predicates:
+          - Path=/search/**
+      - id: user-service # 授权服务
+        uri: lb://user-service
+        predicates:
+          - Path=/user/**
+      - id: trade-service # 交易服务
+        uri: lb://trade-service
+        predicates:
+          - Path=/trade/**
+      - id: item-service # 商品微服务
+        uri: lb://item-service
+        predicates:
+          - Path=/item/**
+  redis:
+    host: myredis
+
 logging:
   level:
     com.leyou: debug
+# 要想让auth-api中的功能全都生效，auth-api中
+# 配置了自动装配功能，但是由于AuthConfiguration和
+ly:
+  auth:
+    clientId: api-gateway
+    secret: 1234
+# MvcConfig都加了conditionalOn，所以此处要加以配置
+# 其他配置不需要，因为网关基于webflux编程，和SpringMVC无关

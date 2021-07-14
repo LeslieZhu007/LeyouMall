@@ -25,12 +25,12 @@ public class SmsConfiguration {
     }
 
 
-    //消息转换器
-    public class MqConfig {
+        //消息转换器  转换Map对象，使其变成json对象
+
         @Bean
         public Jackson2JsonMessageConverter messageConverter(){
             return new Jackson2JsonMessageConverter();
         }
-    }
+
 
 }

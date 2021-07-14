@@ -3,6 +3,20 @@ server:
 spring:
   application:
     name: auth-service
+  datasource:
+    url: jdbc:mysql://ly-mysql:3306/heima?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false
+    username: root
+    password: 123
+    driver-class-name: com.mysql.jdbc.Driver
+  mybatis-plus:
+    global-config:
+      db-config:
+        id-type: auto
+        insert-strategy: not_null
+        update-strategy: not_null
+    type-aliases-package: com.leyou.auth.entity
+  redis:
+    host: myredis
 eureka:
   client:
     service-url:
@@ -12,10 +26,12 @@ logging:
     com.leyou: debug
 ly:
   oss:
-    accessKeyId: LTAI4G8JNXtk1iA1ZYfe5SGt
-    accessKeySecret: BLvhUvXlILEmZWwvB9HeHCrxjjw3IF
+    accessKeyId:
+    accessKeySecret:
     host: http://project02leyou.oss-cn-shanghai.aliyuncs.com # 访问oss的bucket的域名
     endpoint: oss-cn-shanghai.aliyuncs.com # 你选择的oss服务器的地址
     dir: "LeyouMall" # 保存到bucket的某个子目录
     expireTime: 1200000 # 过期时间，单位是ms
     maxFileSize: 5242880 #文件大小限制，这里是5M
+  jwt:
+    key: SDsafasdgfasdgsZfdzxsaefgklhkjgjkkklkgkjjj

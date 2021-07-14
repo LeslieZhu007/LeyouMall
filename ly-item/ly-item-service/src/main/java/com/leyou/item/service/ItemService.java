@@ -33,12 +33,12 @@ public class ItemService {
 
         /*try {
             // 判断价格是否为空
-            if(item.getPrice() == null){
+            if(entity.getPrice() == null){
 
                 //throw new RuntimeException("价格不能为空！");
                 throw new LyException(400,"价格不能为空！");
             }
-            if(item.getName() == null){
+            if(entity.getName() == null){
 
                 //throw new RuntimeException("名称不能为空！");
                 throw new LyException(401,"名称不能为空！");
@@ -46,9 +46,9 @@ public class ItemService {
 
             // 随机生成id，模拟数据库的新增
             int id = new Random().nextInt(100);
-            item.setId(id);
+            entity.setId(id);
             // 返回新增之后的对象，回显id
-            return item;
+            return entity;
         } catch (LyException e) {
             log.error("xxx" );
             throw e; //抛了便于数据库回滚，否则catch了之后不会回滚

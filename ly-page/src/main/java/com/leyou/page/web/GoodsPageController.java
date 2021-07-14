@@ -1,7 +1,7 @@
 package com.leyou.page.web;
 
 import com.leyou.page.service.GoodsPageService;
-import com.leyou.page.vo.SpuVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
